@@ -24,6 +24,34 @@ innerSocket.on('GETAUCTIONINFO', function(risk){
 	innerSocket.emit('AUCTIONINFO', getAuctionData(risk));
 });
 
+innerSocket.on('GETACTUAL', function(){
+	innerSocket.emit('ACTUALINFO', examples.getActualAccount);
+});
+
+innerSocket.on('GETAUCTIONS', function(){
+	innerSocket.emit('AUCTIONS', findAuctions(examples.getAuctions, examples.getActualAccount));
+});
+
+innerSocket.on('PARTICIPATE', function(info){
+	innerSocket.emit('AUCTIONS', findAuctions(updateAuction(info), examples.getActualAccount));
+});
+
+function updateAuction(info) {
+	for (var i = 0; i < examples.getAuctions.length; i++)
+		if (examples.getAuctions[i].debtor.id == info.id)
+			examples.getAuctions[i].participants.push(examples.getActualAccount);
+	return examples.getAuctions;
+}
+
+function findAuctions(auctions, actual) {
+	var result = [];
+	for (var i = 0; i < auctions.length; i++)
+		for (var j = 0; j < auctions[i].participants.length; j++)
+			if (auctions[i].participants[j].id == actual.id)
+				result.push(auctions[i].debtor.id);
+	return result;
+}
+
 function filter(type) {
 	var accs = []
 	for (var i = 0; i < accounts.length; i++)
@@ -33,7 +61,7 @@ function filter(type) {
 }
 
 function getAuctionData(risk){
-	return filter("debtor",examples.getAccounts);
+	return filter("debtor", examples.getAccounts);
 }
 
 function filter(type, accounts) {

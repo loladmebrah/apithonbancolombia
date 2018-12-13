@@ -10,14 +10,8 @@
 <script>
 var socket = io();
 var accounts = [];
-
-function filter(type) {
-	var accs = []
-	for (var i = 0; i < accounts.length; i++)
-		if (accounts[i].type === type)
-			accs.push(accounts[i]);
-	return accs;
-}
+var user = null;
+var actual = {id: -1};
 
 function find(data, id) {
 	for (var i = 0; i < data.length; i++)
@@ -31,22 +25,37 @@ function updateAccounts(debtors) {
 	 accounts = debtors;
 }
 
-function show(accs) {
-	document.getElementById('auctionTable').innerHTML = getAuctionTitle() + toDebtRows(accs);
+function show(accs, auctions) {
+	document.getElementById('auctionTable').innerHTML = getAuctionTitle() + toDebtRows(accs, auctions);
 }
 
 function getAuctionTitle() {
 	return "<tr><th>Deuda</th><th>Score</th><th></th></tr>";
 }
 
-function toDebtRows(accs) {
+function toDebtRows(accs, auctions) {
 	var html = "";
 	for (var i = 0; i < accs.length; i++) {
-		html += "<tr><th>" + accs[i].debt + "</th><th>" + accs[i].score + 
-				"</th><th id='debtor" + accs[i].id + "'><button type='button' onclick='participate(" + accs[i].id +
-				")'>participate</button></th></tr>";
+		if (isInAuctions(accounts[i].id, auctions)) {
+			html += "<tr><th>" + accs[i].debt + "</th><th>" + accs[i].score + 
+					"</th><th id='debtor" + accs[i].id + "'>participating</th></tr>";
+		} else {
+			html += "<tr><th>" + accs[i].debt + "</th><th>" + accs[i].score + 
+					"</th><th id='debtor" + accs[i].id + "'><button type='button' onclick='participate(" + accs[i].id +
+					")'>participate</button></th></tr>";
+		}
 	}
 	return html;
+}
+
+function isInAuctions(id, auctions) {
+	console.log("> isInAuctions");
+	console.log("  > id" + id);
+	console.log("  > auctions" + auctions);
+	for (var j = 0; j < auctions.length; j++)
+		if (id == auctions[j])
+			return true;
+	return false;
 }
 
 
@@ -54,35 +63,55 @@ window.onload = function() {
 	//emitir evento de cargar cuentas
 	console.log("solicitando subastas");
 	socket.emit('ASKDEBTORS');
+	socket.emit('ASKACTUAL');
+	socket.emit('ASKAUCTIONS');
 	//tenemos todas las cuentas para la subasta
 }
 
 
 function participate(id) {
 	//busca id del deudor y lo obtiene del conjunto de deudores y actualiza el estado de su subasta actual luego de activar on click
-
-
 	var debtor = find(accounts, id);
 	if (debtor != null) {
 		document.getElementById('debtor' + id).innerHTML =
-			getValueHTML("Valor: ", 1000, debtor.debt, 1000, 1000) +
-			getValueHTML("Tasa: ", debtor.min_rate, debtor.max_rate, debtor.max_rate, 0.1)
-			+ "<button type='button' onclick=''>enviar</button></th>";
+			getValueHTML("amount" + actual.id, "Valor: ", 1000, debtor.debt, 1000, 1000) +
+			getValueHTML("rate" + actual.id, "Tasa: ", debtor.min_rate, debtor.max_rate, debtor.max_rate, 0.1) +
+				"<button type='button' onclick='offer(" + id +
+				")'>enviar</button></th>";
 	}
 }
 
-function getValueHTML(content, min, max, value, step) {
-	return "<th>" + content + "<input type='number' name='' min='" + min +"' value='" + value +"', max='" + max +"'step='" + step + "'></th>";
+function getValueHTML(id, content, min, max, value, step) {
+	return "<th>" + content + "<input id='" + id + "' type='number' name='' min='" + min +"' value='" + value +"', max='" + max +"'step='" + step + "'></th>";
+}
+
+function offer(id) {
+	var amount = parseFloat(document.getElementById('amount' + actual.id).value);
+	var rate = parseFloat(document.getElementById('rate' + actual.id).value);
+	socket.emit('PARTICIPATE', {id: id, amount: amount, rate: rate});
 }
 
 socket.on('DRAWAUCTIONS', function(debtors){
 	updateAccounts(debtors);
-	show(debtors);
-})
+});
 
 socket.on('RETURNCLIENT', function(client){
 	//actualizar datos de cliente
-})
+});
+
+socket.on('UPDATEACTUAL', function(info){
+	//actualizar datos de cliente
+	console.log("actualizando actual");
+	console.log(info);
+	actual = info;
+});
+
+socket.on('UPDATEAUCTIONS', function(info){
+	//actualizar datos de cliente
+	console.log("actualizando subastas");
+	console.log(info);
+	show(accounts, info);
+});
 
 
 </script>

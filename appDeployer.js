@@ -9,8 +9,17 @@ mainSocket.on('DRAWAUCTIONS', function(info){
 	io.emit('DRAWAUCTIONS',info);
 });
 
+mainSocket.on('UPDATEACTUAL', function(info){
+  io.emit('UPDATEACTUAL',info);
+});
+
 mainSocket.on('RETURNCLIENT', function(info){
 	io.emit('RETURNCLIENT',info);
+});
+
+mainSocket.on('UPDATEAUCTIONS', function(info){
+  console.log("update auctions");
+  io.emit('UPDATEAUCTIONS', info);
 });
 
 app.use(express.static(__dirname+'/Vistas'));
@@ -30,6 +39,20 @@ io.on('connection', function(socket){
           mainSocket.emit('GETACCOUNTINFO', id);
       });
 
+      socket.on('ASKACTUAL', function(){
+          console.log("asking actual account");
+          mainSocket.emit('GETACTUAL');
+      });
+
+      socket.on('ASKAUCTIONS', function(){
+          console.log("asking participating auctions");
+          mainSocket.emit('GETAUCTIONS');
+      });
+
+      socket.on('PARTICIPATE', function(info){
+          console.log("participate in an auction");
+          mainSocket.emit('PARTICIPATE', info);
+      });
 });
 
 http.listen(4242, function(){
