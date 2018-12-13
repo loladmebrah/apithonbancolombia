@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>Auction view</title>
+	<link rel="stylesheet" href="">
+</head>
+<script src="/socket.io/socket.io.js"></script>
+<script>
+var socket = io();
+
+function filter(type) {
+	var accs = []
+	for (var i = 0; i < accounts.length; i++)
+		if (accounts[i].type === type)
+			accs.push(accounts[i]);
+	return accs;
+}
+
+function find(data, id) {
+	for (var i = 0; i < data.length; i++)
+		if (data[i].id == id)
+			return data[i];
+	return null;
+}
+
+function updateAccounts(debtors) {
+	 console.log(debtors)
+}
+
+function show(accs) {
+	document.getElementById('auctionTable').innerHTML = getAuctionTitle() + toDebtRows(accs);
+}
+
+function getAuctionTitle() {
+	return "<tr><th>Deuda</th><th>Score</th><th></th></tr>";
+}
+
+function toDebtRows(accs) {
+	var html = "";
+	for (var i = 0; i < accs.length; i++) {
+		html += "<tr><th>" + accs[i].debt + "</th><th>" + accs[i].score + 
+				"</th><th id='debtor" + accs[i].id + "'><button type='button' onclick='participate(" + accs[i].id +
+				")'>participate</button></th></tr>";
+	}
+	return html;
+}
+
+
+window.onload = function() {
+	//emitir evento de cargar cuentas
+	console.log("solicitando subastas");
+	socket.emit('ASKDEBTORS');
+	//tenemos todas las cuentas para la subasta
+}
+
+
+function participate(id) {
+	//busca id del deudor y lo obtiene del conjunto de deudores y actualiza el estado de su subasta actual luego de activar on click
+	var debtor = find(accounts, id);
+	if (debtor != null) {
+		document.getElementById('debtor' + id).innerHTML =
+			getValueHTML("Valor: ", 1000, debtor.debt, 1000, 1000) +
+			getValueHTML("Tasa: ", debtor.min_rate, debtor.max_rate, debtor.max_rate, 0.1)
+			+ "<button type='button' onclick=''>enviar</button></th>";
+	}
+}
+
+function getValueHTML(content, min, max, value, step) {
+	return "<th>" + content + "<input type='number' name='' min='" + min +"' value='" + value +"', max='" + max +"'step='" + step + "'></th>";
+}
+
+socket.on('DRAWAUCTIONS', function(debtors){
+	updateAccounts(debtors);
+	show(debtors);
+})
+
+socket.on('RETURNCLIENT', function(client){
+	//actualizar datos de cliente
+})
+
+
+</script>
+<body>
+
+<h1>Subasta</h1>
+<table style="width:100%" id="auctionTable">
+  <tr>
+    <th>Deuda</th>
+    <th>Score</th> 
+    <th></th>
+  </tr>
+</table>
+
+</body>
+</html>

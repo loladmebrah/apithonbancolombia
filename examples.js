@@ -59,6 +59,18 @@ var clientinfo_example = {
     "id": "string"
   };
 
+var accounts = [
+  {id: 100, funds: 5000, debt: 3000, type: "debtor", score: 0.5, rate: 12, max_rate: 9, min_rate: 6, periods: 8, still: 3, assessment: 225},
+  {id: 101, funds: 2000, debt: 5000, type: "debtor", score: 0.35, rate: 11, max_rate: 8, min_rate: 5, periods: 8, still: 3, assessment: 225},
+  {id: 102, funds: 8000, debt: 8000, type: "debtor", score: 0.45, rate: 15, max_rate: 12, min_rate: 9, periods: 8, still: 3, assessment: 225},
+  {id: 103, funds: 2000, debt: 3000, type: "debtor", score: 0.95, rate: 13, max_rate: 10, min_rate: 7, periods: 8, still: 3, assessment: 225},
+  {id: 104, funds: 5000, debt: 5000, type: "debtor", score: 0.85, rate: 10, max_rate: 7, min_rate: 4, periods: 8, still: 3, assessment: 225},
+  {id: 105, funds: 5000, debt: 0, type: "investor", debt_value: 2000, cut_rate: 0.7, cuote_value: 200},
+  {id: 106, funds: 6000, debt: 8000, type: "debtor", score: 0.9, rate: 12, max_rate: 9, min_rate: 6, periods: 8, still: 3, assessment: 225},
+  {id: 107, funds: 11000, debt: 0, type: "investor", debt_value: 2000, cut_rate: 0.7, cuote_value: 200}
+  ]
+
  module.exports = {
- 	getClient : clientinfo_example
+ 	 getClient : clientinfo_example,
+   getAccounts: accounts
  }
