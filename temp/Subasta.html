@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>Auction view</title>
+	<link rel="stylesheet" href="">
+</head>
+<script>
+var accounts = [
+	{id: 100, funds: 5000, debt: 3000, type: "debtor", score: 0.5, rate: 12, max_rate: 9, min_rate: 6, periods: 8, still: 3, assessment: 225},
+	{id: 101, funds: 2000, debt: 5000, type: "debtor", score: 0.35, rate: 11, max_rate: 8, min_rate: 5, periods: 8, still: 3, assessment: 225},
+	{id: 102, funds: 8000, debt: 8000, type: "debtor", score: 0.45, rate: 15, max_rate: 12, min_rate: 9, periods: 8, still: 3, assessment: 225},
+	{id: 103, funds: 2000, debt: 3000, type: "debtor", score: 0.95, rate: 13, max_rate: 10, min_rate: 7, periods: 8, still: 3, assessment: 225},
+	{id: 104, funds: 5000, debt: 5000, type: "debtor", score: 0.85, rate: 10, max_rate: 7, min_rate: 4, periods: 8, still: 3, assessment: 225},
+	{id: 105, funds: 5000, debt: 0, type: "investor", debt_value: 2000, cut_rate: 0.7, cuote_value: 200},
+	{id: 106, funds: 6000, debt: 8000, type: "debtor", score: 0.9, rate: 12, max_rate: 9, min_rate: 6, periods: 8, still: 3, assessment: 225},
+	{id: 107, funds: 11000, debt: 0, type: "investor", debt_value: 2000, cut_rate: 0.7, cuote_value: 200}
+	];
+
+var debtors = filter("debtor");
+var actual = find(accounts, 105);
+var auctions = [];
+
+for (var i = 0; i < debtors.length; i++)
+	auctions.push({account: debtors, participants: []});
+
+window.onload = function() {
+	updateAccounts();
+	show(debtors);
+}
+
+function filter(type) {
+	var accs = []
+	for (var i = 0; i < accounts.length; i++)
+		if (accounts[i].type === type)
+			accs.push(accounts[i]);
+	return accs;
+}
+
+function find(data, id) {
+	for (var i = 0; i < data.length; i++)
+		if (data[i].id == id)
+			return data[i];
+	return null;
+}
+
+function show(accs) {
+	document.getElementById('auctionTable').innerHTML = getAuctionTitle() + toDebtRows(accs);
+}
+
+function getAuctionTitle() {
+	return "<tr><th>Deuda</th><th>Score</th><th></th></tr>";
+}
+
+function toDebtRows(accs) {
+	var html = "";
+	for (var i = 0; i < accs.length; i++) {
+		html += "<tr><th>" + accs[i].debt + "</th><th>" + accs[i].score + 
+				"</th><th id='debtor" + accs[i].id + "'><button type='button' onclick='participate(" + accs[i].id +
+				")'>participate</button></th></tr>";
+	}
+	return html;
+}
+
+function participate(id) {
+	var debtor = find(accounts, id);
+	if (debtor != null) {
+		document.getElementById('debtor' + id).innerHTML =
+			getValueHTML("Valor: ", 1000, debtor.debt, 1000, 1000) +
+			getValueHTML("Tasa: ", debtor.min_rate, debtor.max_rate, debtor.max_rate, 0.1)
+			+ "<button type='button' onclick=''>enviar</button></th>";
+	}
+	//document.getElementById('debtor' + id).innerHTML = getValueHTML(1000, debtor.debt, debtor.debt, 1000);
+	//"<th> Valor: <input type='number' name='' min='10000' value='100000'" +
+		//"step='10000'></th><th> Tasa: <input type='number' name='' min='" + debtor.min_rate +
+//		"' value='12' step='0.1'></th><th></th>";
+}
+
+function getValueHTML(content, min, max, value, step) {
+	return "<th>" + content + "<input type='number' name='' min='" + min +"' value='" + value +"', max='" + max +"'step='" + step + "'></th>";
+}
+
+function updateAccounts() {
+}
+
+</script>
+<body>
+
+<h1>Subasta</h1>
+<table style="width:100%" id="auctionTable">
+  <tr>
+    <th>Deuda</th>
+    <th>Score</th> 
+    <th></th>
+  </tr>
+</table>
+
+<p id="demo">JavaScript can change HTML content.</p>
+
+</body>
+</html>
