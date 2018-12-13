@@ -32,7 +32,7 @@ apiEmitter.on('AUCTIONINFO', function(auctionInfo){
 })
 
 apiEmitter.on('CLIENTINFO', function(clientinfo){
-	//console.log(clientinfo);
+	console.log(clientinfo);
 	viewEmitter.emit('RETURNCLIENT', clientInfo);
 })
 
@@ -46,9 +46,6 @@ viewEmitter.on('GETACCOUNTINFO', function(id){
 })
 
 
-//var debtors = filter("debtor");
-//var actual = find(accounts, 105);
-//var auctions = [];
 
 
 

@@ -9,6 +9,7 @@
 <script src="/socket.io/socket.io.js"></script>
 <script>
 var socket = io();
+var accounts = [];
 
 function filter(type) {
 	var accs = []
@@ -27,6 +28,7 @@ function find(data, id) {
 
 function updateAccounts(debtors) {
 	 console.log(debtors)
+	 accounts = debtors;
 }
 
 function show(accs) {
@@ -58,6 +60,8 @@ window.onload = function() {
 
 function participate(id) {
 	//busca id del deudor y lo obtiene del conjunto de deudores y actualiza el estado de su subasta actual luego de activar on click
+
+
 	var debtor = find(accounts, id);
 	if (debtor != null) {
 		document.getElementById('debtor' + id).innerHTML =
