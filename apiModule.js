@@ -24,8 +24,24 @@ innerSocket.on('GETAUCTIONINFO', function(risk){
 	innerSocket.emit('AUCTIONINFO', getAuctionData(risk));
 });
 
+function filter(type) {
+	var accs = []
+	for (var i = 0; i < accounts.length; i++)
+		if (accounts[i].type === type)
+			accs.push(accounts[i]);
+	return accs;
+}
+
 function getAuctionData(risk){
-	return examples.getAccounts;
+	return filter("debtor",examples.getAccounts);
+}
+
+function filter(type, accounts) {
+	var accs = []
+	for (var i = 0; i < accounts.length; i++)
+		if (accounts[i].type === type)
+			accs.push(accounts[i]);
+	return accs;
 }
 
 function getClientData(id){
