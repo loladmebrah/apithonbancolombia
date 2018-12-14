@@ -1,0 +1,14 @@
+:root {
+  --logo-color-1: #210049; 
+  --logo-color-2: #E53935; 
+  --logo-color-3: #8E24AA; 
+}
+
+body{
+	margin: 0;
+	width: 100%;
+	height: 100%;
+	/*overflow: hidden;*/
+	background-color: #3B1D5E;
+	font-family: 'Montserrat';
+}
