@@ -3,8 +3,14 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>Auction view</title>
-	<link rel="stylesheet" href="">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Bancaliados</title>
+	<link href="https://fonts.googleapis.com/css?family=Montserrat:300,900" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css?family=Open+Sans:300,700" rel="stylesheet">
+
+	<link rel="stylesheet"  href="/styles/styles.css">
+	<link rel="stylesheet"  href="/styles/auction.css">
+
 </head>
 <script src="/socket.io/socket.io.js"></script>
 <script>
@@ -55,12 +61,9 @@ function isInAuctions(id, auctions) {
 	return false;
 }
 
-
 window.onload = function() {
-	//emitir evento de cargar cuentas
 	console.log("solicitando subastas");
 	socket.emit('ASKACTUAL');
-	//tenemos todas las cuentas para la subasta
 }
 
 

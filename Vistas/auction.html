@@ -19,7 +19,7 @@
 		</div>
 		<div id="info-header">
 			<h4>Balance:</h4>
-			<h2>$ <span>1'000.000</span></h2>
+			<h2>$ <span id='balance'>1'000.000</span></h2>
 			<p>cerrar sesión</p>
 		</div>
 	</div>
@@ -85,7 +85,13 @@
 	</div>
 
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/2.0.2/TweenMax.min.js"></script>
+	<script src="/socket.io/socket.io.js"></script>
 	<script>
+		var socket = io();
+		var accounts = [];
+		var user = null;
+		var actual = {id: -1};
+
 		var cards = document.getElementsByClassName("auction-card");
 		var pup = document.getElementById("pup-svg");
 		var closePup = document.getElementById("closePup");
@@ -146,6 +152,74 @@
 		function hideConfirm(){
 			document.getElementById("screen").style.display = "none";
 			document.getElementById("confirm-popup").style.display = "none";
+		}
+
+		window.onload = function() {
+			console.log("solicitando subastas");
+			socket.emit('ASKACTUAL');
+		}
+
+		socket.on('UPDATEACTUAL', function(info){
+			console.log("actualizando actual");
+			console.log(info);
+			actual = info;
+			document.getElementById('balance').innerHTML = info.funds;
+			socket.emit('ASKDEBTORS');
+			socket.emit('ASKAUCTIONS');
+		});
+
+		socket.on('DRAWAUCTIONS', function(debtors){
+			updateAccounts(debtors);
+		});
+
+		function updateAccounts(debtors) {
+			 console.log(debtors)
+			 accounts = debtors;
+		}
+
+		socket.on('UPDATEAUCTIONS', function(info) {
+			console.log("actualizando subastas");
+			console.log(info);
+			show(accounts, info);
+		});
+
+		function show(accs, auctions) {
+			document.getElementById('auctions').innerHTML = getDebtCards(accs, auctions);
+		}
+
+		function getDebtCards(accs, auctions) {
+			var html = "";
+			for (var i = 0; i < accs.length; i++) {
+				if (isInAuctions(accounts[i].id, auctions)) {
+					html += "<div class='auction-card'><h2>$ <span>" + accs[i].debt + "</span></h2>" +
+							"<H4>Score: <span>" + accs[i].score + "</span></H4><h4>Tasa: <span>" +
+							accs[i].min_rate + "%</span> min - <span>" + accs[i].max_rate + "%</span> " +
+							"</h4><div class='auction-flag'><p>% bolsa</p><h4>" +
+							"<span>100</span>%</h4></div></div>";
+				} else {
+					html += "<div class='auction-card'><h2>$ <span>" + accs[i].debt + "</span></h2>" +
+							"<H4>Score: <span>" + accs[i].score + "</span></H4><h4>Tasa: <span>" +
+							accs[i].min_rate + "%</span> min - <span>" + accs[i].max_rate + "%</span> " +
+							"</h4><div class='auction-flag'><p>% bolsa</p><h4>" +
+							"<span>100</span>%</h4></div></div>";
+				}
+				/*if (isInAuctions(accounts[i].id, auctions)) {
+					/*html += "<tr><th>" + accs[i].debt + "</th><th>" + accs[i].score + 
+							"</th><th id='debtor" + accs[i].id + "'>participating</th></tr>";
+				} else {
+					html += "<tr><th>" + accs[i].debt + "</th><th>" + accs[i].score + 
+							"</th><th id='debtor" + accs[i].id + "'><button type='button' onclick='participate(" + accs[i].id +
+							")'>participate</button></th></tr>";
+				}*/
+			}
+			return html;
+		}
+
+		function isInAuctions(id, auctions) {
+			for (var j = 0; j < auctions.length; j++)
+				if (id == auctions[j])
+					return true;
+			return false;
 		}
 	</script>
 </body>

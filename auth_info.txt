@@ -4,6 +4,4 @@ oQ2qL3eX3cW8cO2iA3dA4jE7qT3dR7cB3rS2mC7qK5qR3qM7yL
 sandbox
 
 Deposit-account:read:user
-
 http://localhost:4242/getaccesscode
-
