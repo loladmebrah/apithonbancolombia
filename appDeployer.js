@@ -54,9 +54,9 @@ io.on('connection', function(socket){
           mainSocket.emit('PARTICIPATE', info);
       });
 
-      socket.on('CHANGEACCOUNT', function(){
+      socket.on('CHANGEACCOUNT', function(info){
           console.log("change account");
-          mainSocket.emit('NEXTACCOUNT');
+          mainSocket.emit('NEXTACCOUNT', info);
       });
 });
 

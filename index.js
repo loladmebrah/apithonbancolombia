@@ -70,7 +70,7 @@ viewEmitter.on('PARTICIPATE', function(info){
 });
 
 
-viewEmitter.on('NEXTACCOUNT', function(){
-	apiEmitter.emit('NEXTACCOUNT');
+viewEmitter.on('NEXTACCOUNT', function(info){
+	apiEmitter.emit('NEXTACCOUNT', info);
 });
 

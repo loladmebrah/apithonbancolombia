@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>Auction view</title>
+	<link rel="stylesheet" href="">
+</head>
+<script src="/socket.io/socket.io.js"></script>
+<script>
+var socket = io();
+var actual = {id: -1};
+
+window.onload = function() {
+	//emitir evento de cargar cuentas
+	//console.log("solicitando subastas");
+	socket.emit('ASKACTUAL');
+	//tenemos todas las cuentas para la subasta
+}
+
+socket.on('UPDATEACTUAL', function(info){
+	//actualizar datos de cliente
+	if (info.type === "investor")
+		setTimeout("location.href='banquero.html'", 100);
+	else {
+		console.log("actualizando actual");
+		console.log(info);
+		actual = info;
+		document.getElementById('name').innerHTML = info.name;
+		document.getElementById('balance').innerHTML = info.funds;
+		document.getElementById('cuote').innerHTML = info.cuote;
+		document.getElementById('rate').innerHTML = info.rate;
+	}
+});
+
+function changeAccount() {
+	socket.emit('CHANGEACCOUNT', {tabu: "none"});
+}
+
+</script>
+<body>
+
+<h1>Aliado</h1>
+
+<table style="width:100%" id="dataTable">
+  <tr>
+    <th>Nombre:</th>
+    <th id="name"></th>
+  </tr>
+  <tr>
+    <th>Balance:</th>
+    <th id="balance"></th>
+  </tr>
+  <tr>
+    <th>Cuota:</th>
+    <th id="cuote"></th>
+  </tr>
+  <tr>
+    <th>Tasa:</th>
+    <th id="rate"></th>
+  </tr>
+</table>
+
+<button type='button' onclick='changeAccount()'>Cambiar Usuario</button>
+
+</body>
+</html>

@@ -37,13 +37,13 @@ innerSocket.on('PARTICIPATE', function(info){
 });
 
 innerSocket.on('NEXTACCOUNT', function(info){
-	innerSocket.emit('ACTUALINFO', nextInvestor());
+	innerSocket.emit('ACTUALINFO', next(info.tabu));
 });
 
-function nextInvestor() {
+function next(tabu) {
 	examples.getActualAccountIndex = (examples.getActualAccountIndex + 1) % examples.getAccounts.length;
 	examples.getActualAccount = examples.getAccounts[examples.getActualAccountIndex];
-	while (!(examples.getActualAccount.type === "investor")) {
+	while (examples.getActualAccount.type === tabu) {
 		examples.getActualAccountIndex = (examples.getActualAccountIndex + 1) % examples.getAccounts.length;
 		examples.getActualAccount = examples.getAccounts[examples.getActualAccountIndex];
 	}
@@ -54,17 +54,19 @@ function updateAuction(info) {
 	for (var i = 0; i < examples.getAuctions.length; i++) {
 		if (examples.getAuctions[i].debtor.id == info.id) {
 			examples.getAuctions[i].participants.push(examples.getActualAccount);
+			examples.getAuctions[i].offer.push({amount: info.amount, rate: info.rate});
 			if (examples.getAuctions[i].participants.length >= 3) {
 				examples.getAuctions[i].status = "closed";
 				// quemado auctions
-				examples.getAuctions[i].results = [{cuote: 870636.4, percentage: 0.66}, {cuote: 448509.66, percentage: 0.34}, {cuote: 0.0, percentage: 0.0}];
+				examples.getAuctions[i].results.push({cuote: 870636.4, percentage: 0.66});
+				examples.getAuctions[i].results.push({cuote: 448509.66, percentage: 0.34});
+				examples.getAuctions[i].results.push({cuote: 0, percentage: 0});
 				// quemado accounts
-				console.log("> Antes");
-				console.log(examples.getAccounts);
 				examples.getAuctions[i].debtor.rate = 9.5;
 				examples.getAuctions[i].debtor.cuote = 1332477;
-				console.log("> Despues");
-				console.log(examples.getAccounts);
+				for (var j = 0; j < examples.getAuctions[i].participants.length; j++)
+					if (examples.getAuctions[i].results[j].percentage > 0)
+						examples.getAuctions[i].participants[j].funds -= examples.getAuctions[i].offer[j].amount;
 			}
 		}
 	}

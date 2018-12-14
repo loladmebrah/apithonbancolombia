@@ -112,7 +112,11 @@ socket.on('UPDATEAUCTIONS', function(info){
 });
 
 function changeAccount() {
-	socket.emit('CHANGEACCOUNT');
+	socket.emit('CHANGEACCOUNT', {tabu: "debtor"});
+}
+
+function moveToConsole() {
+	setTimeout("location.href='banquero.html'", 100);
 }
 
 </script>
@@ -130,6 +134,7 @@ function changeAccount() {
 </table>
 
 <button type='button' onclick='changeAccount()'>Cambiar Usuario</button>
+<button type='button' onclick='moveToConsole()'>Mi cuenta</button>
 
 </body>
 </html>
