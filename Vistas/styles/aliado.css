@@ -65,3 +65,22 @@ body{
 #pay{
 	margin-top: 50px;
 }
+
+#balance{
+	color: var(--logo-color-2);
+	margin: 0;
+	margin-bottom: 20px;
+}
+
+#balance:before{
+	content: '$ ';
+}
+
+#incomesTable{
+	color: white;
+}
+
+#titleIng{
+	color: white;
+	padding: 30px;
+}

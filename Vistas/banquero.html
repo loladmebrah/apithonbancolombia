@@ -3,7 +3,12 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>Auction view</title>
+
+	<link href="https://fonts.googleapis.com/css?family=Montserrat:300,900" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css?family=Open+Sans:300,700" rel="stylesheet">
+	<link rel="stylesheet" href="styles/styles.css">
+	<link rel="stylesheet" href="styles/aliado.css">
+	<title>Bancaliados</title>
 	<link rel="stylesheet" href="">
 </head>
 <script src="/socket.io/socket.io.js"></script>
@@ -77,32 +82,23 @@ function changeAccount() {
 </script>
 <body>
 
-<h1>Banquero</h1>
-
-<table style="width:100%" id="dataTable">
-  <tr>
-    <th>Nombre:</th>
-    <th id="name"></th>
-  </tr>
-  <tr>
-    <th>Balance:</th>
-    <th id="balance"></th>
-  </tr>
-</table>
-
-<h2>Ingresos</h2>
+<div id="a-header">
+	<div id="logo-header" class="center">
+		<img src="/styles/img/logo.svg" alt="bancaliado">
+	</div>
+	<div id="info-header">
+		<h3 id="name"></h3>
+		<p>Balance:</p>
+		<h1 id="balance"></h1>
+		<button type='button' onclick='moveToSubasta()'>Ir a Subasta</button>
+	</div>
+</div>
 
 <table style="width:100%" id="incomesTable">
-  <tr>
-    <th>Monto Mensual por Recibir</th>
-    <th>Tasa</th>
-    <th>Periodos</th>
-    <th>Monto FInanciado</th>
-  </tr>
 </table>
 
 <button type='button' onclick='changeAccount()'>Cambiar Usuario</button>
-<button type='button' onclick='moveToSubasta()'>Ir a Subasta</button>
+
 
 </body>
 </html>
