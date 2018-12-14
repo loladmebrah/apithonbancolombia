@@ -69,8 +69,11 @@ viewEmitter.on('PARTICIPATE', function(info){
 	apiEmitter.emit('PARTICIPATE', info);
 });
 
-
 viewEmitter.on('NEXTACCOUNT', function(info){
 	apiEmitter.emit('NEXTACCOUNT', info);
+});
+
+viewEmitter.on('GETCLOSEDAUCTIONS', function(){
+	apiEmitter.emit('GETCLOSEDAUCTIONS');
 });
 

@@ -28,8 +28,38 @@ socket.on('UPDATEACTUAL', function(info){
 		actual = info;
 		document.getElementById('name').innerHTML = info.name;
 		document.getElementById('balance').innerHTML = info.funds;
+		socket.emit('ASKCLOSEDAUCTIONS');
 	}
 });
+
+socket.on('UPDATEAUCTIONS', function(auctions) {
+	document.getElementById('incomesTable').innerHTML = getHTMLTitle() + getHTMLAuctions(auctions);
+});
+
+function getHTMLTitle() {
+	return "<tr><th>Cuota</th><th>Tasa</th><th>Periodos</th></tr>";
+}
+
+function getHTMLAuctions(auctions) {
+	html = "";
+	for (var i = 0; i < auctions.length; i++)
+		html += getHTMLAuction(auctions[i]);
+	return html;
+}
+
+function getHTMLAuction(auction) {
+	html = "";
+	for (var j = 0; j < auction.participants.length; j++)
+		if (actual.id == auction.participants[j].id) {
+			if (auction.results[j].cuote > 0)
+				html += "<tr><td>" + auction.results[j].cuote +
+						"</td><td>" + auction.debtor.rate +
+						"</td><td>" + auction.debtor.periods + "</td></tr>";
+			else
+				html += "<tr><td>no adjudicado</td><td>Na</td><td>Na</td></tr>";
+		}
+	return html;
+}x
 
 function moveToSubasta() {
 	setTimeout("location.href='subastas.html'", 100);
@@ -52,6 +82,16 @@ function changeAccount() {
   <tr>
     <th>Balance:</th>
     <th id="balance"></th>
+  </tr>
+</table>
+
+<h2>Ingresos</h2>
+
+<table style="width:100%" id="incomesTable">
+  <tr>
+    <th>Cuota</th>
+    <th>Tasa</th>
+    <th>Periodos</th>
   </tr>
 </table>
 

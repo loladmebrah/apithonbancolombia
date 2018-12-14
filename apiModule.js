@@ -40,6 +40,19 @@ innerSocket.on('NEXTACCOUNT', function(info){
 	innerSocket.emit('ACTUALINFO', next(info.tabu));
 });
 
+innerSocket.on('GETCLOSEDAUCTIONS', function(){
+	innerSocket.emit('AUCTIONS', findClosedAuctions(examples.getAuctions, examples.getActualAccount));
+});
+
+function findClosedAuctions(auctions, actual) {
+	var result = [];
+	for (var i = 0; i < auctions.length; i++)
+		for (var j = 0; j < auctions[i].participants.length; j++)
+			if (auctions[i].participants[j].id == actual.id && auctions[i].status === "closed")
+				result.push(auctions[i]);
+	return result;
+}
+
 function next(tabu) {
 	examples.getActualAccountIndex = (examples.getActualAccountIndex + 1) % examples.getAccounts.length;
 	examples.getActualAccount = examples.getAccounts[examples.getActualAccountIndex];

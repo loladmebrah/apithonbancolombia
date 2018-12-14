@@ -58,6 +58,11 @@ io.on('connection', function(socket){
           console.log("change account");
           mainSocket.emit('NEXTACCOUNT', info);
       });
+
+      socket.on('ASKCLOSEDAUCTIONS', function(){
+          console.log("asking actual account");
+          mainSocket.emit('GETCLOSEDAUCTIONS');
+      });
 });
 
 http.listen(4242, function(){
