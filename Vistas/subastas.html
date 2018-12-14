@@ -150,13 +150,13 @@
 		}
 
 		window.onload = function() {
-			console.log("solicitando subastas");
+			//console.log("solicitando subastas");
 			socket.emit('ASKACTUAL');
 		}
 
 		socket.on('UPDATEACTUAL', function(info){
-			console.log("actualizando actual");
-			console.log(info);
+			//console.log("actualizando actual");
+			//console.log(info);
 			actual = info;
 			document.getElementById('balance').innerHTML = info.funds;
 			socket.emit('ASKDEBTORS');
@@ -168,13 +168,13 @@
 		});
 
 		function updateAccounts(debtors) {
-			 console.log(debtors)
+			 //console.log(debtors)
 			 accounts = debtors;
 		}
 
 		socket.on('UPDATEAUCTIONS', function(info) {
-			console.log("actualizando subastas");
-			console.log(info);
+			//console.log("actualizando subastas");
+			//console.log(info);
 			show(accounts, info);
 		});
 
@@ -228,7 +228,7 @@
 			}else{
 				TweenMax.to( r, 0.7,{ x: "0", y: "0", ease: Power4.easeOut, onUpdate: openSVG });
 			}
-			console.log(debtor);
+			//console.log(debtor);
 			document.getElementById('pop_balance').innerHTML = debtor.debt;
 			document.getElementById('min_rate').innerHTML = debtor.min_rate + "%";
 			document.getElementById('max_rate').innerHTML = debtor.max_rate + "%";
@@ -252,8 +252,8 @@
 		}
 
 		socket.on('UPDATEAUCTIONS', function(info){
-			console.log("actualizando subastas");
-			console.log(info);
+			//console.log("actualizando subastas");
+			//console.log(info);
 			show(accounts, info);
 		});
 

@@ -14,6 +14,18 @@ innerSocket.on('GETCLIENTINFO', function(id){
     innerSocket.emit('CLIENTINFO', getClientData(id));
 });
 
+innerSocket.on('UPDATECLIENTINFO', function(clientInfo){
+	console.log("updating client info ...........");
+	let accId = parseInt(clientInfo.account_number);
+	let balance = clientInfo.savingsAccount_availableBalance;
+	for (var i = 0; i < examples.getAccounts; i++) {
+		if (examples.getAccounts[i].id == accId)
+			examples.updateAccount(i, balance);
+			//examples.getAccounts[i].funds = balance;
+	}
+    //innerSocket.emit('CLIENTINFO', getClientData(id));
+});
+
 
 innerSocket.on('MAKEPAYMENT', function(){
     

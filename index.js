@@ -25,6 +25,12 @@ const apiEmitter =  apiController.emitter;
 
 */
 
+viewEmitter.on('UPDATECLIENTINFO', function(info){
+	console.log(info)
+	apiEmitter.emit('UPDATECLIENTINFO', info);
+});
+
+
 apiEmitter.on('AUCTIONINFO', function(auctionInfo){
 	console.log("response from api")
 	console.log(auctionInfo);
@@ -72,6 +78,8 @@ viewEmitter.on('PARTICIPATE', function(info){
 viewEmitter.on('NEXTACCOUNT', function(info){
 	apiEmitter.emit('NEXTACCOUNT', info);
 });
+
+
 
 viewEmitter.on('GETCLOSEDAUCTIONS', function(){
 	apiEmitter.emit('GETCLOSEDAUCTIONS');

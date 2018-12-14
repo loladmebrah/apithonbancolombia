@@ -110,10 +110,13 @@ function getToken(code, client_id_, client_secret_, req, res){
          } 
       }
       client.get('https://sbapi.bancolombia.com/hackathon/v1/operations/product-specific/accounts/account-details', token_args, function (data, response) {
-        console.log(data);
-        console.log(typeof(data))
-        console.log(data.data[0].savingsAccount);
-        console.log(data.data[0].header);
+        //console.log(data);
+        //console.log(typeof(data))
+        let client_info = data.data[0].savingsAccount;
+        //console.log(data.data[0].savingsAccount);
+        //console.log(data.data[0].header);
+        mainSocket.emit('UPDATECLIENTINFO',client_info);
+        console.log(client_info);
         res.setHeader('content-type', 'text/html; charset=utf-8');
         res.write(subastas_view);
         res.end();
@@ -132,6 +135,10 @@ function getToken(code, client_id_, client_secret_, req, res){
 
 
 io.on('connection', function(socket){
+
+      socket.on('UPDATECLIENTINFO', function(clientData){
+         mainSocket.emit('UPDATECLIENTINFO', clientData);
+      })
       socket.on('ASKDEBTORS', function(){
       	  console.log("asking for debtors");
           mainSocket.emit('GETDEBTORS');

@@ -146,10 +146,16 @@ var auctions = [
 var actual = accounts[0];
 var index = 0;
 
+function updtAccount(id, balance){
+  console.log(id+" new balance "+balance);
+  accounts[id].funds = balance;
+}
+
 module.exports = {
  	 getClient : clientinfo_example,
    getAccounts: accounts,
    getActualAccount: actual,
    getAuctions: auctions,
-   getActualAccountIndex: index
+   getActualAccountIndex: index,
+   updateAccount: function(id, balance){ console.log("updating account"); updtAccount(id, balance)}
 };
