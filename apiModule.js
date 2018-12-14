@@ -98,7 +98,8 @@ function findAuctions(auctions, actual) {
 }
 
 function getAuctionData(risk){
-	return filter("debtor", examples.getAccounts, examples.getAuctions);
+	accounts = filter("debtor", examples.getAccounts, examples.getAuctions);
+	return accounts;
 }
 
 function filter(type, accounts, auctions) {
