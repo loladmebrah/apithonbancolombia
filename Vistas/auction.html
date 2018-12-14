@@ -64,11 +64,11 @@
 
 		<div id="info-popup">
 			<p>Deuda total</p>
-			<h2>$ <span>50'000.000</span></h2>
+			<h2>$ <span id='pop_balance'>50'000.000</span></h2>
 			<H4>Score: <span>Alto</span></H4>
-			<h4>Tasa: <span>8%</span> min - <span>12%</span> max</h4>
-			<h4># cuotas faltantes: <span>15</span></h4>
-			<form accept-charset="utf-8">
+			<h4>Tasa: <span id='min_rate'>8%</span> min - <span id='max_rate'>12%</span> max</h4>
+			<h4># cuotas faltantes: <span id='periods'>15</span></h4>
+			<form accept-charset="utf-8" id="pop_data">
 				<input type="number" name="" placeholder="1000000" step="100000" min="1000000"><br>
 				<input type="number" name="" placeholder="8" min="8" max="12"><br>
 				<button type="button" onclick="openConfirm(0)">SUBASTAR</button>
@@ -81,6 +81,10 @@
 			<p>Desea confirmar la operación?</p>
 			<button type="button">CONFIRMAR</button>
 		</div>
+	</div>
+	<div>
+		<button type='button' onclick='changeAccount()'>Cambiar Usuario</button>
+		<button type='button' onclick='moveToConsole()'>Mi cuenta</button>
 	</div>
 
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/2.0.2/TweenMax.min.js"></script>
@@ -119,15 +123,6 @@
 		closeConfirm.addEventListener("click", function(){
 			openConfirm(1);
 		});
-
-		function openPopup( x ){
-			if ( x == 0 ) {
-				TweenMax.to( r, 1,{ x: "3000", y: "3000", ease: Power4.easeInOut, onUpdate: openSVG });
-			}else{
-				TweenMax.to( r, 0.7,{ x: "0", y: "0", ease: Power4.easeOut, onUpdate: openSVG });
-			}
-			
-		}
 
 		function openSVG(){
 			pup.attributes[2].value = r.x;
@@ -196,20 +191,13 @@
 							"</h4><div class='auction-flag'><p>% bolsa</p><h4>" +
 							"<span>100</span>%</h4></div></div>";
 				} else {
-					html += "<div class='auction-card'><h2>$ <span>" + accs[i].debt + "</span></h2>" +
+					html += "<div class='auction-card' onclick='participate(" + accs[i].id +
+							")'><h2>$ <span>" + accs[i].debt + "</span></h2>" +
 							"<H4>Score: <span>" + accs[i].score + "</span></H4><h4>Tasa: <span>" +
 							accs[i].min_rate + "%</span> min - <span>" + accs[i].max_rate + "%</span> " +
 							"</h4><div class='auction-flag'><p>% bolsa</p><h4>" +
 							"<span>100</span>%</h4></div></div>";
 				}
-				/*if (isInAuctions(accounts[i].id, auctions)) {
-					/*html += "<tr><th>" + accs[i].debt + "</th><th>" + accs[i].score + 
-							"</th><th id='debtor" + accs[i].id + "'>participating</th></tr>";
-				} else {
-					html += "<tr><th>" + accs[i].debt + "</th><th>" + accs[i].score + 
-							"</th><th id='debtor" + accs[i].id + "'><button type='button' onclick='participate(" + accs[i].id +
-							")'>participate</button></th></tr>";
-				}*/
 			}
 			return html;
 		}
@@ -219,6 +207,60 @@
 				if (id == auctions[j])
 					return true;
 			return false;
+		}
+
+		function participate(id) {
+			var debtor = find(accounts, id);
+			if (debtor != null)
+				openPopup(debtor, 0);
+		}
+
+		function find(data, id) {
+			for (var i = 0; i < data.length; i++)
+				if (data[i].id == id)
+					return data[i];
+			return null;
+		}
+
+		function openPopup( debtor, x ){
+			if ( x == 0 ) {
+				TweenMax.to( r, 1,{ x: "3000", y: "3000", ease: Power4.easeInOut, onUpdate: openSVG });
+			}else{
+				TweenMax.to( r, 0.7,{ x: "0", y: "0", ease: Power4.easeOut, onUpdate: openSVG });
+			}
+			console.log(debtor);
+			document.getElementById('pop_balance').innerHTML = debtor.debt;
+			document.getElementById('min_rate').innerHTML = debtor.min_rate + "%";
+			document.getElementById('max_rate').innerHTML = debtor.max_rate + "%";
+			document.getElementById('periods').innerHTML = debtor.periods;
+			document.getElementById('confirm-popup').innerHTML = "<img id='closeConfirm' class='clickeable' " +
+				"src='styles/img/x.svg' alt='close'><h2>CONFIRMAR</h2><p>Desea confirmar la operación?</p>" +
+				"<button type='button' onclick='offer(" + debtor.id + ")'>CONFIRMAR</button>";
+			document.getElementById('pop_data').innerHTML = 
+				"<input id='amount" + debtor.id + "' type='number' name='' placeholder='1000000' step='100000' min='1000000'><br>" +
+				"<input id='rate" + debtor.id + "' type='number' name='' placeholder='8' min='8' max='12'><br>" +
+				"<button type='button' onclick='openConfirm(0)'>SUBASTAR</button>";
+		}
+
+		function offer(id) {
+			var amount = parseFloat(document.getElementById('amount' + id).value);
+			var rate = parseFloat(document.getElementById('rate' + id).value);
+			socket.emit('PARTICIPATE', {id: id, amount: amount, rate: rate});
+			TweenMax.to( r, 0.7,{ x: "0", y: "0", ease: Power4.easeOut, onUpdate: openSVG });
+		}
+
+		socket.on('UPDATEAUCTIONS', function(info){
+			console.log("actualizando subastas");
+			console.log(info);
+			show(accounts, info);
+		});
+
+		function changeAccount() {
+			socket.emit('CHANGEACCOUNT', {tabu: "debtor"});
+		}
+
+		function moveToConsole() {
+			setTimeout("location.href='banquero.html'", 100);
 		}
 	</script>
 </body>
