@@ -9,6 +9,8 @@
 	<link href="https://fonts.googleapis.com/css?family=Open+Sans:300,700" rel="stylesheet">
 
 	<link rel="stylesheet"  href="/styles/styles.css">
+	<link rel="stylesheet"  href="/styles/auction.css">
+
 </head>
 <body>
 	<div id="b-header">
@@ -26,7 +28,7 @@
 			<h2>$ <span>50'000.000</span></h2>
 			<H4>Score: <span>Alto</span></H4>
 			<h4>Tasa: <span>8%</span> min - <span>12%</span> max</h4>
-			<div class="auction-popup">
+			<div class="auction-flag">
 				<p>% bolsa</p>
 				<h4><span>100</span>%</h4>
 			</div>
@@ -35,8 +37,8 @@
 			<h2>$ <span>50'000.000</span></h2>
 			<H4>Score: <span>Alto</span></H4>
 			<h4>Tasa: <span>8%</span> min - <span>12%</span> max</h4>
-			<div class="auction-popup">
-				<p>% pozo</p>
+			<div class="auction-flag">
+				<p>% bolsa</p>
 				<h4><span>100</span>%</h4>
 			</div>
 		</div>
@@ -44,30 +46,107 @@
 			<h2>$ <span>50'000.000</span></h2>
 			<H4>Score: <span>Alto</span></H4>
 			<h4>Tasa: <span>8%</span> min - <span>12%</span> max</h4>
-			<div class="auction-popup">
-				<p>% pozo</p>
-				<h4><span>100</span>%</h4>
-			</div>
-		</div>
-		<div class="auction-card">
-			<h2>$ <span>50'000.000</span></h2>
-			<H4>Score: <span>Alto</span></H4>
-			<h4>Tasa: <span>8%</span> min - <span>12%</span> max</h4>
-			<div class="auction-popup">
-				<p>% pozo</p>
-				<h4><span>100</span>%</h4>
-			</div>
-		</div>
-		<div class="auction-card">
-			<h2>$ <span>50'000.000</span></h2>
-			<H4>Score: <span>Alto</span></H4>
-			<h4>Tasa: <span>8%</span> min - <span>12%</span> max</h4>
-			<div class="auction-popup">
-				<p>% pozo</p>
+			<div class="auction-flag">
+				<p>% bolsa</p>
 				<h4><span>100</span>%</h4>
 			</div>
 		</div>
 	</div>
-	
+	<div id="auction-popup">
+		<svg width="0" height="0">
+            <defs>
+                <clipPath id="popup-clip">
+                    <ellipse cx="0" cy="0" rx="0" ry="0" stroke="none" id="pup-svg"/>
+                </clipPath>
+            </defs>
+        </svg>
+
+        <img id="closePup" class="clickeable" src="styles/img/x.svg" alt="close">
+
+		<div id="info-popup">
+			<p>Deuda total</p>
+			<h2>$ <span>50'000.000</span></h2>
+			<H4>Score: <span>Alto</span></H4>
+			<h4>Tasa: <span>8%</span> min - <span>12%</span> max</h4>
+			<h4># cuotas faltantes: <span>15</span></h4>
+			<form accept-charset="utf-8">
+				<input type="number" name="" placeholder="1000000" step="100000" min="1000000"><br>
+				<input type="number" name="" placeholder="8" min="8" max="12"><br>
+				<button type="button" onclick="openConfirm(0)">SUBASTAR</button>
+			</form>
+		</div>
+		<div id="screen"></div>
+		<div id="confirm-popup">
+			<img id="closeConfirm" class="clickeable" src="styles/img/x.svg" alt="close">
+			<h2>CONFIRMAR</h2>
+			<p>Desea confirmar la operación?</p>
+			<button type="button">CONFIRMAR</button>
+		</div>
+	</div>
+
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/2.0.2/TweenMax.min.js"></script>
+	<script>
+		var cards = document.getElementsByClassName("auction-card");
+		var pup = document.getElementById("pup-svg");
+		var closePup = document.getElementById("closePup");
+		var closeConfirm = document.getElementById("closeConfirm");
+
+		var r = { x:0, y:0 };
+
+		for (var i = 0; i < cards.length; i++) {
+			cards[i].addEventListener("click", function(){
+				openPopup(0);
+			});
+		}
+
+		document.addEventListener("mousemove", function(e){
+			var x = e.clientX;
+    		var y = e.clientY;
+
+    		pup.attributes[0].value = x;
+    		pup.attributes[1].value = y;
+		});
+
+		closePup.addEventListener("click", function(){
+			openPopup(1);
+		});
+
+		closeConfirm.addEventListener("click", function(){
+			openConfirm(1);
+		});
+
+		function openPopup( x ){
+			if ( x == 0 ) {
+				TweenMax.to( r, 1,{ x: "3000", y: "3000", ease: Power4.easeInOut, onUpdate: openSVG });
+			}else{
+				TweenMax.to( r, 0.7,{ x: "0", y: "0", ease: Power4.easeOut, onUpdate: openSVG });
+			}
+			
+		}
+
+		function openSVG(){
+			pup.attributes[2].value = r.x;
+			pup.attributes[3].value = r.y;
+		}
+
+		function openConfirm( x ){
+			var s = document.getElementById("screen");
+			var confirm = document.getElementById("confirm-popup");
+			if ( x == 0) {
+				s.style.display = "initial";
+				confirm.style.display = "initial";
+				TweenMax.to(s, 0.5, { opacity: 1, ease: Power4.easeInOut });
+				TweenMax.to(confirm, 0.5, { opacity: 1, ease: Power4.easeInOut });
+			}else{
+				TweenMax.to(s, 0.5, { opacity: 0, ease: Power4.easeInOut });
+				TweenMax.to(confirm, 0.5, { opacity: 0, ease: Power4.easeInOut, onComplete: hideConfirm });
+			}	
+		}
+
+		function hideConfirm(){
+			document.getElementById("screen").style.display = "none";
+			document.getElementById("confirm-popup").style.display = "none";
+		}
+	</script>
 </body>
 </html>
