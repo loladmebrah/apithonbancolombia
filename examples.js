@@ -143,8 +143,8 @@ var auctions = [
   {debtor: accounts[3], participants: [], results: [], offer: [], status: "open", rate: 0}
 ];
 
-var actual = accounts[0];
-var index = 0;
+var actual = accounts[4];
+var index = 4;
 
 function updtAccount(id, balance){
   console.log(id+" new balance "+balance);

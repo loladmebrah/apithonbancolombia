@@ -20,7 +20,7 @@
 		<div id="info-header">
 			<h4>Balance:</h4>
 			<h2>$ <span id='balance'>1'000.000</span></h2>
-			<p>cerrar sesión</p>
+			<p onclick="closeSession()">cerrar sesión</p>
 		</div>
 	</div>
 	<div id="auctions">
@@ -263,6 +263,10 @@
 
 		function moveToConsole() {
 			setTimeout("location.href='banquero.html'", 100);
+		}
+
+		function closeSession() {
+			setTimeout("location.href='http://localhost:4242'", 100);
 		}
 	</script>
 </body>
