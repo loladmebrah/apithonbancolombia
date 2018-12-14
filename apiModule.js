@@ -56,8 +56,15 @@ function updateAuction(info) {
 			examples.getAuctions[i].participants.push(examples.getActualAccount);
 			if (examples.getAuctions[i].participants.length >= 3) {
 				examples.getAuctions[i].status = "closed";
-				// quemado
+				// quemado auctions
 				examples.getAuctions[i].results = [{cuote: 870636.4, percentage: 0.66}, {cuote: 448509.66, percentage: 0.34}, {cuote: 0.0, percentage: 0.0}];
+				// quemado accounts
+				for (var j = 0; j < examples.getAccounts; j++) {
+					if (examples.getAccounts[j].id == examples.getAuctions[i].debtor.id) {
+						examples.getAuctions[i].debtor.rate = 9.5;
+						examples.getAuctions[i].debtor.cuote = 1332477;
+					}
+				}
 			}
 		}
 	}

@@ -137,10 +137,10 @@ var accounts = [
 // banquero: cuota, tasa, no adjudicado
 
 var auctions = [
-  {debtor: accounts[0], participants: [], results[], status: "open"},
-  {debtor: accounts[1], participants: [], results[], status: "open"},
-  {debtor: accounts[2], participants: [], results[], status: "open"},
-  {debtor: accounts[3], participants: [], results[], status: "open"}
+  {debtor: accounts[0], participants: [], results: [], status: "open"},
+  {debtor: accounts[1], participants: [], results: [], status: "open"},
+  {debtor: accounts[2], participants: [], results: [], status: "open"},
+  {debtor: accounts[3], participants: [], results: [], status: "open"}
 ];
 
 var actual = accounts[4];
