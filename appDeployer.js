@@ -109,8 +109,11 @@ function getToken(code, client_id_, client_secret_, req, res){
            authorization: 'Bearer '+data.access_token 
          } 
       }
-      client.post('https://sbapi.bancolombia.com/hackathon/v1/operations/product-specific/accounts/account-details', token_args, function (data, response) {
+      client.get('https://sbapi.bancolombia.com/hackathon/v1/operations/product-specific/accounts/account-details', token_args, function (data, response) {
         console.log(data);
+        console.log(typeof(data))
+        console.log(data.data[0].savingsAccount);
+        console.log(data.data[0].header);
         res.setHeader('content-type', 'text/html; charset=utf-8');
         res.write(subastas_view);
         res.end();
