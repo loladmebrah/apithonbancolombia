@@ -57,6 +57,7 @@
 		padding: 17px 28px;
 		font-size: 15px;
 		margin-top: 30px;
+		opacity: 0;
 	}
 	.oauth-button-blue{
 		background-color: #00418b;
@@ -67,18 +68,20 @@
 		text-align: center;
 		margin-top: 10px;
 		text-decoration: none;
+		opacity: 0;
 	}
 </style>
 <div ng-controller="oauthCtrl">
 	<div class="parent-form">
 		<div>
 			<form method="GET">
-				<div class="container-data">	
-					<input name="client_id" placeholder="Client id" required>
-					<input id="client_secret" placeholder="Client Secret" required>
-					<input id="catalog" placeholder="Catalog name" required>
-					<input name="scope" placeholder="Scope" required>
-					<input name="redirect_uri" placeholder="Redirect uri" required>
+				<div class="container-data">
+					<span> Espere mientras redirigimos </span>	
+					<input type="hidden" name="client_id" placeholder="Client id" required>
+					<input type="hidden" id="client_secret" placeholder="Client Secret" required>
+					<input type="hidden" id="catalog" placeholder="Catalog name" required>
+					<input type="hidden" name="scope" placeholder="Scope" required>
+					<input type="hidden" name="redirect_uri" placeholder="Redirect uri" required>
 					<input type="hidden" name="response_type" value="code">
 				</div>
 				<div class="container-submit">
