@@ -69,7 +69,7 @@ function participate(id) {
 	var debtor = find(accounts, id);
 	if (debtor != null) {
 		document.getElementById('debtor' + id).innerHTML =
-			getValueHTML("amount" + actual.id, "Valor: ", 1000, debtor.debt, 1000, 1000) +
+			getValueHTML("amount" + actual.id, "Valor: ", 1000, Math.min(debtor.debt, actual.funds), 1000, 1000) +
 			getValueHTML("rate" + actual.id, "Tasa: ", debtor.min_rate, debtor.max_rate, debtor.max_rate, 0.1) +
 				"<button type='button' onclick='offer(" + id +
 				")'>enviar</button></th>";

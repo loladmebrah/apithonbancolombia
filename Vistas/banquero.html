@@ -60,14 +60,14 @@ function getHTMLAuction(auction) {
 				html += "<tr><td>no adjudicado</td><td>Na</td><td>Na</td><td>Na</td></tr>";
 		}
 	return html;
-}x
+}
 
 function moveToSubasta() {
 	setTimeout("location.href='subastas.html'", 100);
 }
 
 function changeAccount() {
-	socket.emit('CHANGEACCOUNT', {tabu: "none"});
+	socket.emit('CHANGEACCOUNT', {tabu: "debtor"});
 }
 
 </script>
