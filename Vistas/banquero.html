@@ -10,6 +10,7 @@
 <script>
 var socket = io();
 var actual = {id: -1};
+var updated = false;
 
 window.onload = function() {
 	//emitir evento de cargar cuentas
@@ -33,7 +34,10 @@ socket.on('UPDATEACTUAL', function(info){
 });
 
 socket.on('UPDATEAUCTIONS', function(auctions) {
-	document.getElementById('incomesTable').innerHTML = getHTMLTitle() + getHTMLAuctions(auctions);
+	if (!updated) {
+		updated = true;
+		document.getElementById('incomesTable').innerHTML = getHTMLTitle() + getHTMLAuctions(auctions);
+	}
 });
 
 function getHTMLTitle() {

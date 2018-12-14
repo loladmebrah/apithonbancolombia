@@ -80,13 +80,13 @@ function updateAuction(info) {
 		if (examples.getAuctions[i].debtor.id == info.id) {
 			examples.getAuctions[i].participants.push(examples.getActualAccount);
 			examples.getAuctions[i].offer.push({amount: info.amount, rate: info.rate});
-			if (examples.getAuctions[i].participants.length >= 3) {
+			if (examples.getAuctions[i].participants.length >= 2) {
 				examples.getAuctions[i].status = "closed";
 				// quemado auctions
 				var monto = 60327080;
 				examples.getAuctions[i].results.push({cuote: 870636.4, percentage: 0.66, amount: monto * 0.66});
 				examples.getAuctions[i].results.push({cuote: 448509.66, percentage: 0.34, amount: monto * 0.34 });
-				examples.getAuctions[i].results.push({cuote: 0, percentage: 0});
+				//examples.getAuctions[i].results.push({cuote: 0, percentage: 0});
 				// quemado accounts
 				examples.getAuctions[i].rate = 8.5;
 				examples.getAuctions[i].debtor.rate = 9.5;
