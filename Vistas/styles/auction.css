@@ -120,6 +120,10 @@ body{
 	font-weight: 900;
 }
 
+.auction-flag img {
+	width: 42px;
+}
+
 #auction-popup{
 	position: absolute;
 	top: 0;

@@ -4,6 +4,13 @@
   --logo-color-3: #8E24AA; 
 }
 
+body{
+	margin: 0;
+	width: 100%;
+	height: 100%;
+	font-family: 'Montserrat';
+}
+
 input{
 	width: 150px;
 	height: 30px;

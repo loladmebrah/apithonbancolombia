@@ -3,8 +3,13 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>Auction view</title>
-	<link rel="stylesheet" href="">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Bancaliados</title>
+
+	<link href="https://fonts.googleapis.com/css?family=Montserrat:300,900" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css?family=Open+Sans:300,700" rel="stylesheet">
+	<link rel="stylesheet" href="styles/styles.css">
+	<link rel="stylesheet" href="styles/aliado.css">
 </head>
 <script src="/socket.io/socket.io.js"></script>
 <script>
@@ -34,14 +39,27 @@ socket.on('UPDATEACTUAL', function(info){
 });
 
 function changeAccount() {
-	socket.emit('CHANGEACCOUNT', {tabu: "investor"});
+	socket.emit('CHANGEACCOUNT', {tabu: "none"});
 }
 
 </script>
 <body>
 
-<h1>Aliado</h1>
-
+<div id="a-header">
+	<div id="logo-header" class="center">
+		<img src="/styles/img/logo.svg" alt="bancaliado">
+	</div>
+	<div id="info-header">
+		<h3 id="name"></h3>
+		<p>Deuda:</p>
+		<h1 id="debt"></h1>
+		<p>Cuota: <span id="cuote"></span></p>
+		<p>Tasa:<span id="rate"></span></p>
+		<button id="pay" type='button'>PAGAR</button>
+	</div>
+	<button type='button' onclick='changeAccount()'>Cambiar Usuario</button>
+</div>
+<!--
 <table style="width:100%" id="dataTable">
   <tr>
     <th>Nombre:</th>
@@ -60,8 +78,8 @@ function changeAccount() {
     <th id="rate"></th>
   </tr>
 </table>
+-->
 
-<button type='button' onclick='changeAccount()'>Cambiar Usuario</button>
 
 </body>
 </html>

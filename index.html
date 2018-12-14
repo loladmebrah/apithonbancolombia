@@ -6,53 +6,76 @@
 		body{
 			padding: 0;
 			margin: 0;
+			background-color: #ecf0f1;
 		}
-		header{
-			box-shadow: 0 0 5px #333;
-			padding: 10px 20px;
+
+		#init-logo{
+			text-align: center;
 		}
-		.parent-button{
-			display: flex;
-			justify-content: center;
-			height: 70vh;
-			align-items: center;
+
+		#init-logo img{
+			width: 70%;
+			position: absolute;
+			top: 50%;
+			left: 50%;
+			transform: translate(-50%, -50%);
+			-webkit-transform: translate(-50%, -50%);
+    		-moz-transform: translate(-50%, -50%);
+    		-ms-transform: translate(-50%, -50%);
+    		-o-transform: translate(-50%, -50%);
 		}
-		.oauth-button {
-			text-decoration: none !important;
-			border-radius: 4px;
-			color: #fff;
-			border-color: #005296;
-			height: 44px;
-			cursor: pointer;
-			background-image: none;
+
+		#access{
+			position: absolute;
+			left: 50%;
+			bottom: 30px;
+			transform: translate(-50%, -0%);
+			-webkit-transform: translate(-50%, -0%);
+    		-moz-transform: translate(-50%, -0%);
+    		-ms-transform: translate(-50%, -0%);
+    		-o-transform: translate(-50%, -0%);
+		}
+		
+		button{
+			width: 150px;
+			height: 45px;
+			border-radius: 10px;
+			margin: 10px;
+			background-color: #8E24AA;
 			border: none;
-			padding: 17px 28px;
-			font-size: 15px;
-			line-height: 1.57142857;
-			margin: 0px 5px;
+			color: white;
+			cursor: pointer;
+			-webkit-transition: background-color 1s;
+		  	transition: background-color 1s;
 		}
-		.oauth-button-blue{
-			background-color: #00418b;
-			box-shadow: 0 0 20px #00418b;
+
+		button:focus {
+			outline: none;
 		}
-		.oauth-button-yellow{
-			background-color: #FED704;
-			box-shadow: 0 0 20px #FED704;
-		}
-		.oauth-button-red{
-			background-color: #df001e;
-			box-shadow: 0 0 20px #df001e;
+
+		button:hover {
+			background-color: #7B0096;
 		}
     </style>
 </head>
+<body>
+	<div id="init-logo">
+		<img src="/styles/img/logoInit.svg" alt="Bancaliados">
+	</div>
+	<div id="access">
+		<a href="/otpdata"><button type="button">ENTRAR</button></a>
+	</div>
+</body>
+<!--
 <header>
-	<div><img src="/styles/img/logo.png"></div>
+	<div><img src="/styles/img/logo.svg"></div>
 </header>
 <div>	
 	<div class="parent-button">
 		<div>
-			<a class="oauth-button oauth-button-blue" href="/otpdata">Desplegar</a><!-- OTP -->
+			<a class="oauth-button oauth-button-blue" href="/otpdata">Desplegar</a><!-- OTP 
 		</div>
 	</div>
 </div>
+-->
 </html>
