@@ -247,6 +247,8 @@
 			var rate = parseFloat(document.getElementById('rate' + id).value);
 			socket.emit('PARTICIPATE', {id: id, amount: amount, rate: rate});
 			TweenMax.to( r, 0.7,{ x: "0", y: "0", ease: Power4.easeOut, onUpdate: openSVG });
+			hideConfirm();
+			socket.emit('ASKACTUAL');
 		}
 
 		socket.on('UPDATEAUCTIONS', function(info){
