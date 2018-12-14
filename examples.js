@@ -118,7 +118,7 @@ var clientinfo_example = [{
 
 var accounts = [
   {id: 100, funds: 5000, debt: 30000000, type: "debtor", score: "alto", rate: 15, max_rate: 12, min_rate: 9, periods: 60, total: 180, assessment: 225, cuote: 1102036, name: "Diego"},
-  {id: 101, funds: 2000, debt: 60327080.66, type: "debtor", score: "alto", rate: 12, max_rate: 9, min_rate: 6, periods: 55, total: 120, assessment: 225, cuote: 1399472, name: "Andres"},
+  {id: 101, funds: 2000, debt: 59752272, type: "debtor", score: "alto", rate: 12, max_rate: 9, min_rate: 6, periods: 55, total: 120, assessment: 225, cuote: 1399472, name: "Andres"},
   {id: 102, funds: 8000, debt: 100000850.65, type: "debtor", score: "alto", rate: 13, max_rate: 10, min_rate: 7, periods: 38, total: 180, assessment: 225, cuote: 3598675, name: "Natalia"},
   {id: 103, funds: 2000, debt: 300000000, type: "debtor", score: "alto", rate: 10, max_rate: 7, min_rate: 4, periods: 48, total: 120, assessment: 225, cuote: 8687450, name: "Pedro"},
   {id: 104, funds: 85000000, debt: 0, type: "investor", name: "Alejandra"},
@@ -137,10 +137,10 @@ var accounts = [
 // banquero: cuota, tasa, no adjudicado
 
 var auctions = [
-  {debtor: accounts[0], participants: [], results: [], offer: [], status: "open"},
-  {debtor: accounts[1], participants: [], results: [], offer: [], status: "open"},
-  {debtor: accounts[2], participants: [], results: [], offer: [], status: "open"},
-  {debtor: accounts[3], participants: [], results: [], offer: [], status: "open"}
+  {debtor: accounts[0], participants: [], results: [], offer: [], status: "open", rate: 0},
+  {debtor: accounts[1], participants: [], results: [], offer: [], status: "open", rate: 0},
+  {debtor: accounts[2], participants: [], results: [], offer: [], status: "open", rate: 0},
+  {debtor: accounts[3], participants: [], results: [], offer: [], status: "open", rate: 0}
 ];
 
 var actual = accounts[4];

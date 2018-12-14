@@ -37,7 +37,7 @@ socket.on('UPDATEAUCTIONS', function(auctions) {
 });
 
 function getHTMLTitle() {
-	return "<tr><th>Cuota</th><th>Tasa</th><th>Periodos</th></tr>";
+	return "<tr><th>Monto Mensual por Recibir</th><th>Tasa</th><th>Periodos</th><th>Monto FInanciado</th></tr>";
 }
 
 function getHTMLAuctions(auctions) {
@@ -53,10 +53,11 @@ function getHTMLAuction(auction) {
 		if (actual.id == auction.participants[j].id) {
 			if (auction.results[j].cuote > 0)
 				html += "<tr><td>" + auction.results[j].cuote +
-						"</td><td>" + auction.debtor.rate +
-						"</td><td>" + auction.debtor.periods + "</td></tr>";
+						"</td><td>" + auction.rate +
+						"</td><td>" + auction.debtor.periods +
+						"</td><td>" + auction.results[j].amount + "</td></tr>";
 			else
-				html += "<tr><td>no adjudicado</td><td>Na</td><td>Na</td></tr>";
+				html += "<tr><td>no adjudicado</td><td>Na</td><td>Na</td><td>Na</td></tr>";
 		}
 	return html;
 }x
@@ -89,9 +90,10 @@ function changeAccount() {
 
 <table style="width:100%" id="incomesTable">
   <tr>
-    <th>Cuota</th>
+    <th>Monto Mensual por Recibir</th>
     <th>Tasa</th>
     <th>Periodos</th>
+    <th>Monto FInanciado</th>
   </tr>
 </table>
 

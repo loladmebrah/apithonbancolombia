@@ -27,7 +27,7 @@ socket.on('UPDATEACTUAL', function(info){
 		console.log(info);
 		actual = info;
 		document.getElementById('name').innerHTML = info.name;
-		document.getElementById('balance').innerHTML = info.funds;
+		document.getElementById('debt').innerHTML = info.debt;
 		document.getElementById('cuote').innerHTML = info.cuote;
 		document.getElementById('rate').innerHTML = info.rate;
 	}
@@ -48,8 +48,8 @@ function changeAccount() {
     <th id="name"></th>
   </tr>
   <tr>
-    <th>Balance:</th>
-    <th id="balance"></th>
+    <th>Deuda:</th>
+    <th id="debt"></th>
   </tr>
   <tr>
     <th>Cuota:</th>

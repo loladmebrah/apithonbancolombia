@@ -71,15 +71,17 @@ function updateAuction(info) {
 			if (examples.getAuctions[i].participants.length >= 3) {
 				examples.getAuctions[i].status = "closed";
 				// quemado auctions
-				examples.getAuctions[i].results.push({cuote: 870636.4, percentage: 0.66});
-				examples.getAuctions[i].results.push({cuote: 448509.66, percentage: 0.34});
+				var monto = 60327080;
+				examples.getAuctions[i].results.push({cuote: 870636.4, percentage: 0.66, amount: monto * 0.66});
+				examples.getAuctions[i].results.push({cuote: 448509.66, percentage: 0.34, amount: monto * 0.34 });
 				examples.getAuctions[i].results.push({cuote: 0, percentage: 0});
 				// quemado accounts
+				examples.getAuctions[i].rate = 8.5;
 				examples.getAuctions[i].debtor.rate = 9.5;
 				examples.getAuctions[i].debtor.cuote = 1332477;
 				for (var j = 0; j < examples.getAuctions[i].participants.length; j++)
 					if (examples.getAuctions[i].results[j].percentage > 0)
-						examples.getAuctions[i].participants[j].funds -= examples.getAuctions[i].offer[j].amount;
+						examples.getAuctions[i].participants[j].funds -= examples.getAuctions[i].results[j].amount;
 			}
 		}
 	}
