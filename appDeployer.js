@@ -53,6 +53,11 @@ io.on('connection', function(socket){
           console.log("participate in an auction");
           mainSocket.emit('PARTICIPATE', info);
       });
+
+      socket.on('CHANGEACCOUNT', function(){
+          console.log("change account");
+          mainSocket.emit('NEXTACCOUNT');
+      });
 });
 
 http.listen(4242, function(){

@@ -49,9 +49,6 @@ function toDebtRows(accs, auctions) {
 }
 
 function isInAuctions(id, auctions) {
-	console.log("> isInAuctions");
-	console.log("  > id" + id);
-	console.log("  > auctions" + auctions);
 	for (var j = 0; j < auctions.length; j++)
 		if (id == auctions[j])
 			return true;
@@ -62,9 +59,7 @@ function isInAuctions(id, auctions) {
 window.onload = function() {
 	//emitir evento de cargar cuentas
 	console.log("solicitando subastas");
-	socket.emit('ASKDEBTORS');
 	socket.emit('ASKACTUAL');
-	socket.emit('ASKAUCTIONS');
 	//tenemos todas las cuentas para la subasta
 }
 
@@ -104,6 +99,9 @@ socket.on('UPDATEACTUAL', function(info){
 	console.log("actualizando actual");
 	console.log(info);
 	actual = info;
+	document.getElementById('balance').innerHTML = "Balance: " + info.funds;
+	socket.emit('ASKDEBTORS');
+	socket.emit('ASKAUCTIONS');
 });
 
 socket.on('UPDATEAUCTIONS', function(info){
@@ -113,11 +111,16 @@ socket.on('UPDATEAUCTIONS', function(info){
 	show(accounts, info);
 });
 
+function changeAccount() {
+	socket.emit('CHANGEACCOUNT');
+}
 
 </script>
 <body>
 
 <h1>Subasta</h1>
+<h2 id="balance">Balance:</h2>
+
 <table style="width:100%" id="auctionTable">
   <tr>
     <th>Deuda</th>
@@ -125,6 +128,8 @@ socket.on('UPDATEAUCTIONS', function(info){
     <th></th>
   </tr>
 </table>
+
+<button type='button' onclick='changeAccount()'>Cambiar Usuario</button>
 
 </body>
 </html>

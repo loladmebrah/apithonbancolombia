@@ -117,30 +117,39 @@ var clientinfo_example = [{
   }];
 
 var accounts = [
-  {id: 100, funds: 5000, debt: 3000, type: "debtor", score: "alto", rate: 12, max_rate: 9, min_rate: 6, periods: 8, still: 3, assessment: 225},
-  {id: 101, funds: 2000, debt: 5000, type: "debtor", score: "bajo", rate: 11, max_rate: 8, min_rate: 5, periods: 8, still: 3, assessment: 225},
-  {id: 102, funds: 8000, debt: 8000, type: "debtor", score: "medio", rate: 15, max_rate: 12, min_rate: 9, periods: 8, still: 3, assessment: 225},
-  {id: 103, funds: 2000, debt: 3000, type: "debtor", score: "alto", rate: 13, max_rate: 10, min_rate: 7, periods: 8, still: 3, assessment: 225},
-  {id: 104, funds: 5000, debt: 5000, type: "debtor", score: "medio", rate: 10, max_rate: 7, min_rate: 4, periods: 8, still: 3, assessment: 225},
-  {id: 105, funds: 5000, debt: 0, type: "investor", debt_value: 2000, cut_rate: 0.7, cuote_value: 200},
-  {id: 106, funds: 6000, debt: 8000, type: "debtor", score: "bajo", rate: 12, max_rate: 9, min_rate: 6, periods: 8, still: 3, assessment: 225},
-  {id: 107, funds: 11000, debt: 0, type: "investor", debt_value: 2000, cut_rate: 0.7, cuote_value: 200}
+  {id: 100, funds: 5000, debt: 30000000, type: "debtor", score: "alto", rate: 15, max_rate: 12, min_rate: 9, periods: 60, total: 180, assessment: 225, cuote: 1102036},
+  {id: 101, funds: 2000, debt: 60327080.66, type: "debtor", score: "alto", rate: 12, max_rate: 9, min_rate: 6, periods: 55, total: 120, assessment: 225, cuote: 1399472},
+  {id: 102, funds: 8000, debt: 100000850.65, type: "debtor", score: "alto", rate: 13, max_rate: 10, min_rate: 7, periods: 38, total: 180, assessment: 225, cuote: 3598675},
+  {id: 103, funds: 2000, debt: 300000000, type: "debtor", score: "alto", rate: 10, max_rate: 7, min_rate: 4, periods: 48, total: 120, assessment: 225, cuote: 8687450},
+  {id: 104, funds: 85000000, debt: 0, type: "investor"},
+  {id: 105, funds: 30000000, debt: 0, type: "investor"},
+  {id: 106, funds: 100000000, debt: 0, type: "investor"},
+  {id: 107, funds: 45000000, debt: 0, type: "investor"}
   ];
 
+// 1. 40000000 8%
+// 2. 30000000 8.5%
+// 3. 40000000 9
+// {debtor: accounts[1], participants: [{account: account, cuote: 870636.4, percentage: 0.66, success: "yes"}, {account: account, cuote: 448509.66, percentage: 0.34, success: "yes"}, {account: account, cuote: 448509.66, percentage: 0.34, success: "no"}], status: "open", rate: 8.5},
+// {id: 101, funds: 2000, debt: 60327080.66, type: "debtor", score: "alto", rate: 9.5, max_rate: 8, min_rate: 5, periods: 55, total: 120, assessment: 225, cuote: 1332477},
+//
+// aliado: cuota, tasa
+// banquero: cuota, tasa, no adjudicado
+
 var auctions = [
-  {debtor: accounts[0], participants: [], status: "open"},
-  {debtor: accounts[1], participants: [], status: "open"},
-  {debtor: accounts[2], participants: [], status: "open"},
-  {debtor: accounts[3], participants: [], status: "open"},
-  {debtor: accounts[4], participants: [], status: "open"},
-  {debtor: accounts[6], participants: [], status: "open"}
+  {debtor: accounts[0], participants: [], results[], status: "open"},
+  {debtor: accounts[1], participants: [], results[], status: "open"},
+  {debtor: accounts[2], participants: [], results[], status: "open"},
+  {debtor: accounts[3], participants: [], results[], status: "open"}
 ];
 
-var actual = accounts[5];
+var actual = accounts[4];
+var index = 4;
 
 module.exports = {
  	 getClient : clientinfo_example,
    getAccounts: accounts,
    getActualAccount: actual,
-   getAuctions: auctions
+   getAuctions: auctions,
+   getActualAccountIndex: index
 };
